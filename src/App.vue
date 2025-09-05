@@ -89,7 +89,7 @@ onMounted(() => {
               </li>
             </ul>
           </div>
-        </div>
+        </div>V
       </div>
 
       <!-- Bottom: Score + Start/Stop -->
