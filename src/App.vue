@@ -17,12 +17,13 @@ const playerName = ref('');
 
 // Leaderboard
 const leaderboard = ref<
-  { id: number; score: number; time: string }[]
+  { id: number; score: number; time: string; name: string }[]
 >([]);
 
 async function refreshLeaderboard() {
   try {
     const res = await axios.get("http://localhost:3000/leaderboard");
+    console.log(res.data);
     leaderboard.value = res.data;
   } catch (err) {
     console.error("❌ Lỗi lấy bảng xếp hạng:", err);
