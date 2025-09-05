@@ -1,0 +1,83 @@
+Báo cáo Dự án Snake Game
+Dưới đây là cách tổ chức và triển khai dự án Snake Game, bao gồm cả backend và frontend, được tối ưu hóa để vận hành hiệu quả.
+1. Tổng quan về Cấu trúc Dự án
+    Dự án Snake Game được chia thành hai phần chính: backend (xử lý logic game và lưu trữ dữ liệu) và frontend (giao diện người dùng). Backend được xây dựng bằng NestJS với TypeScript, trong khi frontend sử dụng Vue.js. Dữ liệu game được lưu trữ trong SQLite, và ứng dụng được triển khai trên một nền tảng tự động hóa như Railway để đảm bảo tính liền mạch và dễ dàng mở rộng.
+2. Cấu trúc Thư Mục
+2.1. Backend (NestJS)
+Thư mục snake-game-backend chứa toàn bộ logic server-side, bao gồm xử lý API và quản lý dữ liệu.
+
+snake-game-backend/
+├── src/
+│   ├── app.controller.spec.ts      (File kiểm thử cho AppController)
+│   ├── app.controller.ts           (Điều phối các yêu cầu API)
+│   ├── app.module.ts               (Module chính của ứng dụng)cáo
+│   ├── app.service.ts              (Service chính xử lý logic game)
+│   ├── main.ts                     (Nơi khởi động ứng dụng)
+│   ├── score.entity.ts             (Định nghĩa cấu trúc bảng 'score' trong SQLite)
+│   └── test/
+│       └── app.e2e-spec.ts         (Kiểm thử end-to-end)
+├── dist/                           (Các file đã được biên dịch)
+├── node_modules/                   (Các thư viện phụ thuộc)
+├── .gitignore                      (Các file không muốn đưa lên GitHub)
+├── db.sqlite                       (Tệp cơ sở dữ liệu SQLite)
+├── jest.config.js                  (Cấu hình cho Jest testing)
+├── package.json                    (Danh sách các thư viện phụ thuộc)
+├── tsconfig.json                   (Cấu hình TypeScript)
+
+Mô tả:
+
+- src/: Chứa mã nguồn chính, bao gồm controller, service, và entity để định nghĩa bảng score.
+- dist/: Thư mục chứa mã đã được biên dịch khi chạy npm run build.
+- db.sqlite: Tệp cơ sở dữ liệu lưu trữ điểm số, được đồng bộ hóa tự động nhờ TypeORM.
+- test/: Thư mục chứa các file kiểm thử.
+
+2.2. Frontend (Vue.js)
+Thư mục snake-game-frontend chứa giao diện người dùng và logic client-side.
+
+snake-game-frontend/
+├── node_modules/                   (Các thư viện phụ thuộc của frontend)
+├── public/                         (Chứa các tệp tĩnh)
+│   └── favicon.ico                 (Icon của trang web)
+├── src/
+│   ├── assets/                     (Tài nguyên tĩnh như hình ảnh hoặc CSS)
+│   │   └── app.css                 (File CSS chung)
+│   ├── components/
+│   │   ├── SnakeCanvas.vue         (Thành phần vẽ bảng game)
+│   │   └── SnakeValueInput.vue     (Thành phần nhập giá trị)
+│   ├── App.vue                     (Thành phần chính của giao diện)
+│   ├── main.ts                     (Nơi khởi động ứng dụng Vue)
+│   └── index.html                  (Tệp HTML gốc)
+├── .gitignore                      (Các file không muốn đưa lên GitHub)
+├── package.json                    (Danh sách các thư viện phụ thuộc)
+├── tsconfig.json                   (Cấu hình TypeScript)
+├── vite.config.ts                  (Cấu hình Vite cho xây dựng và phát triển)
+việt
+Mô tả:
+
+- src/components/: Chứa các thành phần Vue tái sử dụng, như canvas để vẽ rắn và input để điều chỉnh tốc độ.
+- public/: Chứa tệp tĩnh như favicon.ico.
+- src/assets/: Lưu trữ tài nguyên CSS để định kiểu giao diện.
+- vite.config.ts: Cấu hình công cụ xây dựng Vite, hỗ trợ phát triển nhanh.
+
+3. Giao tiếp và Triển khai
+3.1. Giao tiếp
+
+- API REST: Backend cung cấp các endpoint như /submit-score (POST) để lưu điểm số và /leaderboard (GET) để lấy bảng xếp hạng. Giao tiếp giữa frontend và backend được thực hiện qua HTTP bằng axios.
+- Dữ liệu đồng bộ: Khi game kết thúc, frontend gửi điểm số tới backend, và bảng xếp hạng được làm mới tự động bằng cách gọi API /leaderboard.
+
+3.2. Quy trình Triển khai
+
+- Mã nguồn: Được lưu trữ trên nhánh main của GitHub.
+- Tự động hóa: Sử dụng GitHub Actions để chạy kiểm tra mã nguồn (tests) và tự động triển khai khi có thay đổi.
+- Nền tảng Triển khai: Railway được sử dụng để triển khai dự án. Ứng dụng được đóng gói thành hai container:
+    + Backend Container: Chạy NestJS server, kết nối với SQLite.
+    + Frontend Container: Chạy ứng dụng Vue.js, phục vụ giao diện tĩnh.
+
+
+Cấu hình Railway: Tích hợp với GitHub, tự động rebuild và redeploy khi có commit mới. Domain công khai được cấp tự động (ví dụ: snake-game.up.railway.app).
+
+4. Lưu ý
+
+- SQLite: Dữ liệu được lưu trong db.sqlite và đồng bộ hóa tự động nhờ synchronize: true trong app.module.ts (chỉ dùng trong môi trường phát triển).
+- Tối ưu hóa: Đảm bảo frontend và backend được triển khai trên các port khác nhau (ví dụ: 3000 cho backend, 5173 cho frontend trong phát triển) và cấu hình proxy hoặc CORS phù hợp.
+- Kiểm thử: Sử dụng các file kiểm thử như app.e2e-spec.ts để đảm bảo tính ổn định của API.
