@@ -22,7 +22,7 @@ const leaderboard = ref<
 
 async function refreshLeaderboard() {
   try {
-    const res = await axios.get("http://localhost:3000/leaderboard");
+    const res = await axios.get("https://snake-game-backend-production.up.railway.app/leaderboard");
     console.log(res.data);
     leaderboard.value = res.data;
   } catch (err) {

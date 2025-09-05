@@ -193,7 +193,7 @@ async function handleGameOver() {
   isGameOver.value = true;
 
   try {
-    await axios.post("http://localhost:3000/submit-score", {
+    await axios.post("https://snake-game-backend-production.up.railway.app/submit-score", {
       score: props.scores,
       name: !/\S/.test(props.playerName) ? 'Anonymous' : props.playerName
     });
