@@ -72,12 +72,12 @@ onMounted(() => {
           <SnakeNameInput title="Tên người chơi" v-model="playerName" />
 
           <!-- 🏆 Leaderboard -->
+          <h2
+            class="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-2"
+          >
+            🏆 Bảng Xếp Hạng
+          </h2>
           <div v-if="leaderboard.length" class="mt-6">
-            <h2
-              class="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-2"
-            >
-              🏆 Bảng Xếp Hạng
-            </h2>
             <ul class="space-y-1 text-sm text-slate-700 dark:text-slate-300">
               <li
                 v-for="item in leaderboard"
@@ -89,7 +89,7 @@ onMounted(() => {
               </li>
             </ul>
           </div>
-        </div>V
+        </div>
       </div>
 
       <!-- Bottom: Score + Start/Stop -->
